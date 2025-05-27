@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mqtt": "tsx scripts/mqtt.ts"
+    "mqtt": "tsx scripts/mqtt.ts",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate"
   },
   "dependencies": {
     "@heroui/react": "^2.7.8",

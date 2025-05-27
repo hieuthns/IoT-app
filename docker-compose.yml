@@ -5,24 +5,30 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-    logging:
-      driver: "none"
     volumes:
       - db-data:/var/lib/postgresql/data
+
+  app:
+    image: iot-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
     ports:
-      - "5432:5432"
+      - "4000:4000"
 
-  # app:
-  #   build:
-  #     context: ..
-  #     dockerfile: .devcontainer/Dockerfile
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "3000:3000"
-  #   command: sleep infinity
-  #   volumes:
-  #     - ..:/app:cached
-
+  prisma-studio:
+    image: node:lts-alpine3.17
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    command: npx prisma studio --port 5555 --browser none
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db
+      - app
+      
 volumes:
   db-data:
