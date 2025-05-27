@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    logging:
+      driver: "none"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # app:
+  #   build:
+  #     context: ..
+  #     dockerfile: .devcontainer/Dockerfile
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "3000:3000"
+  #   command: sleep infinity
+  #   volumes:
+  #     - ..:/app:cached
+
+volumes:
+  db-data:
